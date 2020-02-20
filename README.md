@@ -58,6 +58,6 @@
  * **药水类型请全部大写**
  
  ## 附魔列表
- * https://bukkit.windit.net/javadoc/
+ * https://bukkit.windit.net/javadoc/org/bukkit/enchantments/Enchantment.html
  * **附魔类型请全部大写**
  
