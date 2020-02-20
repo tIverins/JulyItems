@@ -52,11 +52,11 @@
  | GET_DAMAGE | 受到伤害 |
  | GET_PLAYER_DAMAGE | 受到玩家伤害 |
  | GET_ENTITY_DAMAGE | 受到生物伤害 |
- | :----| :---|
- ##药水列表
+ 
+ ## 药水列表
  * https://github.com/July-Summer/JulyItems/blob/master/src/main/resources/potion_chinese.json
  * **请使用全部大写**
  
- ##附魔列表
+ ## 附魔列表
  * https://bukkit.windit.net/javadoc/
  
