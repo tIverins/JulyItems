@@ -43,3 +43,20 @@
  | 触发名      | 方式 | 
  | :-----------| :-----|
  | RIGHT_CLICK | 右键 |
+ | LEFT_CLICK | z左键|
+ | FIRST_HELD | 首次手持 |
+ | LAST_HELD | 持续手持 |
+ | ATTACK | 攻击玩家和生物 |
+ | ATTACK_PLAYER | 攻击玩家 |
+ | ATTACK_ENTITY | 攻击生物 |
+ | GET_DAMAGE | 受到伤害 |
+ | GET_PLAYER_DAMAGE | 受到玩家伤害 |
+ | GET_ENTITY_DAMAGE | 受到生物伤害 |
+ 
+ ##药水列表
+ * https://github.com/July-Summer/JulyItems/blob/master/src/main/resources/potion_chinese.json
+ * **请使用全部大写**
+ 
+ ##附魔列表
+ * https://bukkit.windit.net/javadoc/
+ 
