@@ -43,7 +43,7 @@
  | 触发名      | 方式 | 
  | :-----------| :-----|
  | RIGHT_CLICK | 右键 |
- | LEFT_CLICK | z左键|
+ | LEFT_CLICK | 左键|
  | FIRST_HELD | 首次手持 |
  | LAST_HELD | 持续手持 |
  | ATTACK | 攻击玩家和生物 |
