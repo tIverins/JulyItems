@@ -1,0 +1,36 @@
+durability:
+  #must have '%durability%/%maxDurability%'
+  displayLore: "&7耐久度: %durability%/%maxDurability%"
+defaultDisplayLore:
+  displayLore: true
+  damageLore: '&f攻击生物时 &a伤害为 &f{minDamage}-{maxDamage} &a点'
+  armorLore: '&f被攻击时 &a将免疫 &f{armor}% &a的伤害'
+  skill:
+    defaultLore: '&f{triggerDisplayName}时 &a触发 &f{skillDisplayName} &a技能'
+    customLore:
+      chanceDisplayLore: '&f{triggerDisplayName}时 &a有{chance}%的几率触发 &f{skillDisplayName} &a技能'
+  potion:
+    defaultLore: '&f{triggerDisplayName}时 &a获得 &f{level}级{potionDisplayName} &a持续&f{time}&a秒'
+cooldown:
+  messageEnable: true
+  cooldownMessage: '&4你还需要 {cooldown} 秒才能释放 {skillDisplayName}'
+skills:
+  fireball:
+    liveTick: 100
+  firearrow:
+    liveTick: 100
+  blinding:
+    entityTitle: '&4陷入致盲状态'
+    damagerTitle: '&a对方已致盲'
+  instantkill:
+    entityTitle: '&4受到瞬杀伤害'
+    damagerTitle: '&a触发瞬杀伤害'
+  consume:
+    message: '&a物品已消耗'
+    displayLore: '&a本物品为一次性消耗物品'
+  light:
+    entityTitle: '&4受到雷击'
+    damagerTitle: '&a触发闪电'
+  ignite:
+    entityTitle: '&4陷入燃烧状态'
+    damagerTtitle: '&a对方被点燃'
