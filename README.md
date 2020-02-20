@@ -55,8 +55,9 @@
  
  ## 药水列表
  * https://github.com/July-Summer/JulyItems/blob/master/src/main/resources/potion_chinese.json
- * **请使用全部大写**
+ * **药水类型请全部大写**
  
  ## 附魔列表
  * https://bukkit.windit.net/javadoc/
+ * **附魔类型请全部大写**
  
