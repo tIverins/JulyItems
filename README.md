@@ -1,5 +1,5 @@
 # 命令
-  * /julyitem <itemID> remove   删除一个物品
+* /julyitem <itemID> remove   删除一个物品
 * /julyitem <itemID> create   新建一个物品
 * /julyitem <itemID> setType  设置物品材质为手中物品
 * /julyitem <itemID> setDurability <最大耐久度>  设置物品的最大耐久 (如果物品有耐久)
@@ -38,3 +38,8 @@
 * /julyitem <itemID> giveItem <Player>  发送物品
 * /julyitem list   列出所有物品
 * /julyitem reload   重载插件
+ 
+ ## 触发方式列表
+ | nb          |  
+ | :-----------| 
+ | RIGHT_CLICK |
