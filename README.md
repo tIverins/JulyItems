@@ -1,6 +1,3 @@
-# JulyItems
-自定义RPG物品
-
 # 命令
   * /julyitem <itemID> remove   删除一个物品
 * /julyitem <itemID> create   新建一个物品
