@@ -34,3 +34,12 @@ skills:
   ignite:
     entityTitle: '&4陷入燃烧状态'
     damagerTtitle: '&a对方被点燃'
+  chain:
+    blockList:
+      - GOLD_ORE
+      - IRON_ORE
+      - COAL_ORE
+      - LAPIS_ORE
+      - DIAMOND_ORE
+      - REDSTONE_ORE
+      - EMERALD_ORE

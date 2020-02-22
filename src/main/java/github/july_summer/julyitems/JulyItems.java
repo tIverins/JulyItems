@@ -28,11 +28,11 @@ public class JulyItems extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        ConfigManager.initFile();
         PotionManager.initDefaultDisplayName(this);
         SkillManager.loadDefaultSkills();
         DropManager.initEntityDrop();
         RecipeManager.initCrafting();
-        ConfigManager.initFile();
         ItemManager.init(YamlConfiguration.loadConfiguration(ConfigManager.items));
         Bukkit.getScheduler().runTaskTimer(this, () -> SkillCooldown.runTask(), 20 , 20);
         Bukkit.getScheduler().runTaskTimer(this, () -> SkillTriggerListener.lastHeldTask(), 20 , 20);
