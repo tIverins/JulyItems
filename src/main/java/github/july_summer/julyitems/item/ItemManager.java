@@ -17,6 +17,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.potion.PotionEffectType;
@@ -112,6 +113,9 @@ public class ItemManager {
             }
         }
         DropManager.loadDropItem(item);
+        if(itemData.contains(itemId + ".flags")){
+            item.flagList = (List<ItemFlag>) itemData.getList(itemId + ".flags");
+        }
 
         if(itemData.contains(itemId + ".recipe")){
             RecipeData recipeData = new RecipeData(itemId);
@@ -230,6 +234,12 @@ public class ItemManager {
                     }
             }
         }
+        List<ItemFlag> flagList = ItemUtil.getFlagList(item);
+        if(jitem.flagList.size() != flagList.size() || !jitem.flagList.equals(flagList)){
+            ItemUtil.setFlag(item, jitem.flagList);
+            isChange = true;
+        }
+
         if(ItemUtil.isUnbreakable(item) != jitem.isUnbreakable()){
             ItemUtil.setUnbreakable(item, jitem.isUnbreakable());
             isChange = true;
@@ -256,9 +266,9 @@ public class ItemManager {
      * 保存物品
      * @param item
      */
-    public static void saveItem(JItem item){
+    public static void saveItem(JItem item) {
         itemData.set(item.getItemId() + ".type", item.getType().toString());
-        itemData.set(item.getItemId()+ ".displayName", item.getDisplayName());
+        itemData.set(item.getItemId() + ".displayName", item.getDisplayName());
         itemData.set(item.getItemId() + ".lore", item.getLoreList());
         itemData.set(item.getItemId() + ".maxDamage", item.getMaxDamage());
         itemData.set(item.getItemId() + ".minDamage", item.getMinDamage());
@@ -270,7 +280,7 @@ public class ItemManager {
         itemData.set(item.getItemId() + ".isDisplayDefaultLore", item.isDisplayDefaultLore());
         itemData.set(item.getItemId() + ".isDisplayCooldown", item.isDisplayCooldown());
         List<String> skillsList = new ArrayList<>();
-        for(Map.Entry<SkillTrigger, LinkedHashMap<String, SkillData>> map : item.skillMap.entrySet()) {
+        for (Map.Entry<SkillTrigger, LinkedHashMap<String, SkillData>> map : item.skillMap.entrySet()) {
             for (Map.Entry<String, SkillData> dataMap : map.getValue().entrySet()) {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append(dataMap.getKey()).append(",");
@@ -283,26 +293,30 @@ public class ItemManager {
         }
         itemData.set(item.getItemId() + ".skills", skillsList);
         List<String> potionsList = new ArrayList<>();
-        for(Map.Entry<PotionEffectType, Integer[]> map : item.potionMap.entrySet()) {
+        for (Map.Entry<PotionEffectType, Integer[]> map : item.potionMap.entrySet()) {
             potionsList.add(map.getKey().getName()
                     + " " + item.potionTriggerMap.get(map.getKey()).toString()
                     + " " + map.getValue()[0]
                     + " " + map.getValue()[1]);
         }
         itemData.set(item.getItemId() + ".potions", potionsList);
-        for(Map.Entry<Enchantment,Integer> map : item.enchantmentMap.entrySet()){
+        for (Map.Entry<Enchantment, Integer> map : item.enchantmentMap.entrySet()) {
             itemData.set(item.getItemId() + ".enchantments." + map.getKey().getName(), map.getValue());
         }
-        for(Map.Entry<EntityType,Integer> dropMap : item.dropMap.entrySet()){
+        for (Map.Entry<EntityType, Integer> dropMap : item.dropMap.entrySet()) {
             itemData.set(item.getItemId() + ".drops." + dropMap.getKey().toString(), dropMap.getValue());
         }
-       RecipeData recipeData = item.getRecipeData();
-        if(recipeData != null){
+        if(!item.flagList.isEmpty()){
+            itemData.set(item.getItemId() + ".flags", item.flagList);
+        }
+
+        RecipeData recipeData = item.getRecipeData();
+        if (recipeData != null) {
             itemData.set(item.getItemId() + ".recipe.chance", recipeData.getRecipeChance());
             ItemStack[] itemStacks = recipeData.getItemStacks();
-            for(int i = 0; i < 9; i++){
+            for (int i = 0; i < 9; i++) {
                 ItemStack itemStack = itemStacks[i];
-                if(itemStack != null) {
+                if (itemStack != null) {
                     itemData.set(item.getItemId() + ".recipe.itemStacks." + i, itemStack);
                 }
             }
