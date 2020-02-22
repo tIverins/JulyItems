@@ -2,20 +2,45 @@ package github.july_summer.julyitems.utils;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 public class ItemUtil {
 
+    /**
+     * 添加Flag
+     * @param itemStack
+     * @param flags
+     */
+    public static void setFlag(ItemStack itemStack, List<ItemFlag> flags){
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        for(ItemFlag flag : getFlagList(itemStack)){
+            itemMeta.removeItemFlags(flag);
+        }
+        ItemFlag[] itemFlags = new ItemFlag[flags.size()];
+        flags.toArray(itemFlags);
+        itemMeta.addItemFlags(itemFlags);
+        itemStack.setItemMeta(itemMeta);
+    }
 
+    /**
+     * 取flag
+     * @param item
+     * @return
+     */
+    public static List<ItemFlag> getFlagList(ItemStack item){
+        if (item != null && item.getType() != Material.AIR
+                && item.hasItemMeta()
+                && item.getItemMeta().getItemFlags().size() != 0){
+            return new ArrayList<>(item.getItemMeta().getItemFlags());
+        }
+        return new ArrayList<>();
+    }
 
     /**
      * 编辑Lore

@@ -15,6 +15,7 @@ import github.july_summer.julyitems.utils.Util;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
@@ -63,6 +64,8 @@ public class JItem{
     public HashMap<Enchantment,Integer> enchantmentMap = Maps.newHashMap();
     //生物掉落
     public HashMap<EntityType, Integer> dropMap = Maps.newHashMap();
+    //ItemFlag
+    public List<ItemFlag> flagList = new ArrayList<>();
     //合成配方
     public RecipeData recipeData = null;
 
@@ -89,16 +92,21 @@ public class JItem{
         return unbreakable;
     }
 
-    public boolean isCheckEnchantment(){ return isCheckEnchantment; }
+    public boolean isCheckEnchantment(){
+        return isCheckEnchantment;
+    }
 
     public boolean isCheckLore(){
         return isCheckLore;
     }
 
-    public boolean isDisplayDefaultLore(){ return isDisplayDefaultLore; }
+    public boolean isDisplayDefaultLore(){
+        return isDisplayDefaultLore;
+    }
 
-    public boolean isDisplayCooldown(){ return isDisplayCooldown; }
-
+    public boolean isDisplayCooldown(){
+        return isDisplayCooldown;
+    }
     public int getArmor(){
         return armor;
     }
@@ -143,6 +151,18 @@ public class JItem{
         if(recipeData != null){
             recipeData.setRecipeChance(recipeChance);
         }
+    }
+
+    public void addFlag(ItemFlag itemFlag){
+        flagList.add(itemFlag);
+    }
+
+    public void removeFlag(ItemFlag itemFlag){
+        flagList.remove(itemFlag);
+    }
+
+    public boolean hasFlag(ItemFlag itemFlag){
+        return flagList.contains(itemFlag);
     }
 
     public void setRecipe(RecipeData data){
@@ -393,6 +413,9 @@ public class JItem{
         for(Map.Entry<Enchantment, Integer> map : enchantmentMap.entrySet()){
             im.addEnchant(map.getKey(), map.getValue(), true);
         }
+        ItemFlag[] itemFlags = new ItemFlag[flagList.size()];
+        flagList.toArray(itemFlags);
+        im.addItemFlags(itemFlags);
         item.setItemMeta(im);
         return item;
     }

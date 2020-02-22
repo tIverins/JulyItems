@@ -116,7 +116,7 @@ public class RecipeListener implements Listener {
                 }
                 ItemStack resultItem = ItemManager.getItem(recipeData.getResultJitem()).buildItem();
                 ItemUtil.addLore(resultItem, "§6§l§m-------------------------");
-                ItemUtil.addLore(resultItem, "§a§l合成成功几率为: §f" + recipeData.getRecipeChance());
+                ItemUtil.addLore(resultItem, "§a§l合成成功几率为: §f" + recipeData.getRecipeChance() + "%");
                 craftingInventory.setResult(resultItem);
             }
         }

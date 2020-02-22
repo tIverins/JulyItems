@@ -13,6 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
@@ -47,27 +48,63 @@ public class EditItemCommands {
         return methods;
     }
 
-    @Sort(order = 21)
-    @SubCommand(cmd = "setRecipe <合成几率>", msg = "设置该物品的合成表, 如果需要删除请在合成几率输入 none", isPlayer = true)
-        public void setRecipe(Player p, String[] args){
+    @Sort(order = 23)
+    @SubCommand(cmd = "setRecipe <合成几率>", msg = "设置该物品的合成表, 如果需要删除请在合成几率输入任意字符", isPlayer = true)
+    public void setRecipe(Player p, String[] args) {
         JItem jitem = ItemManager.getItem(args[0]);
-        if(!Util.isNumber(args[2])){
+        if (!Util.isNumber(args[2])) {
             p.sendMessage("§a该物品的合成表已移除");
             jitem.setRecipe(null);
             return;
         }
-        int chance =  Integer.parseInt(args[2]);
-        if(chance < 0){
+        int chance = Integer.parseInt(args[2]);
+        if (chance < 0) {
             p.sendMessage("§a请输入正整数");
             return;
         }
         p.sendMessage("§a请在即将打开的合成表里, 放入合成材料");
         Bukkit.getScheduler().runTaskLater(JulyItems.getInstance(), () -> {
-            if(!RecipeManager.openCraftingInventory(args[0], chance, p)){
+            if (!RecipeManager.openCraftingInventory(args[0], chance, p)) {
                 p.sendMessage("§c打开失败: 有其他玩家在编辑合成表");
                 return;
             }
         }, 40);
+    }
+
+    @Sort(order =  22)
+    @SubCommand(cmd = "removeFlag <ItemFlag>", msg = "移除物品的ItemFlag")
+    public void removeFlag(CommandSender sender, String[] args){
+        ItemFlag itemFlag = null;
+        try {
+            itemFlag = ItemFlag.valueOf(args[2]);
+        } catch (IllegalArgumentException e) {
+            sender.sendMessage("§c未知Flag");
+            return;
+        }
+
+        JItem jItem = ItemManager.getItem(args[0]);
+        if(!jItem.hasFlag(itemFlag)){
+            sender.sendMessage("§c未知Flag");
+            return;
+        }
+        jItem.removeFlag(itemFlag);
+        sender.sendMessage("§aItemFlag已移除");
+        return;
+    }
+
+    @Sort(order =  21)
+    @SubCommand(cmd = "addFlag <ItemFlag>", msg = "为物品添加ItemFlag")
+    public void addFlag(CommandSender sender, String[] args){
+        ItemFlag itemFlag = null;
+        try {
+            itemFlag = ItemFlag.valueOf(args[2]);
+        } catch (IllegalArgumentException e) {
+            sender.sendMessage("§c未知Flag");
+            return;
+        }
+        ItemManager.getItem(args[0]).addFlag(itemFlag);
+        sender.sendMessage("§aItemFlag已添加");
+        return;
     }
 
     @Sort(order = 20)

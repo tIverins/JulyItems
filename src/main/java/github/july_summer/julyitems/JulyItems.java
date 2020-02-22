@@ -15,7 +15,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 
 public class JulyItems extends JavaPlugin {
 
@@ -37,16 +36,13 @@ public class JulyItems extends JavaPlugin {
         ItemManager.init(YamlConfiguration.loadConfiguration(ConfigManager.items));
         Bukkit.getScheduler().runTaskTimer(this, () -> SkillCooldown.runTask(), 20 , 20);
         Bukkit.getScheduler().runTaskTimer(this, () -> SkillTriggerListener.lastHeldTask(), 20 , 20);
-        //register command
         getCommand("julyitem").setExecutor(new Commands());
-        //register listener
         getServer().getPluginManager().registerEvents(new ItemUpDateLlistener(), this);
         getServer().getPluginManager().registerEvents(new DamageListener(), this);
         getServer().getPluginManager().registerEvents(new SkillTriggerListener(), this);
         getServer().getPluginManager().registerEvents(new DurabilityListener(), this);
         getServer().getPluginManager().registerEvents(new DropListener(), this);
         getServer().getPluginManager().registerEvents(new RecipeListener(), this);
-        //skill listener
         getServer().getPluginManager().registerEvents(new ProjectileListener(), this);
         getServer().getPluginManager().registerEvents(new LightListener(), this);
     }
