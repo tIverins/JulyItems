@@ -12,7 +12,8 @@ public enum SkillTrigger {
     ATTACK_ENTITY("攻击生物"),
     GET_DAMAGE("受到伤害"),
     GET_ENTITY_DAMAGE("受到生物伤害"),
-    GET_PLAYER_DAMAGE("受到玩家伤害");
+    GET_PLAYER_DAMAGE("受到玩家伤害"),
+    BREAK_BLOCK("破坏方块时");
 
 
     private String str;

@@ -11,6 +11,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
@@ -27,6 +28,12 @@ public class SkillTriggerListener implements Listener {
     public void onHeld(PlayerItemHeldEvent event){
         Player p = event.getPlayer();
         SkillManager.triggerItem(p, event.getNewSlot(), SkillTrigger.FIRST_HELD, event);
+    }
+
+    @EventHandler
+    public void onBreak(BlockBreakEvent event){
+        Player p = event.getPlayer();
+        SkillManager.triggerItem(p, p.getInventory().getHeldItemSlot(), SkillTrigger.BREAK_BLOCK, event);
     }
 
     @EventHandler
