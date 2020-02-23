@@ -4,6 +4,7 @@ import github.july_summer.julyitems.ConfigManager;
 import github.july_summer.julyitems.item.ItemManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Method;
@@ -41,6 +42,7 @@ public class PluginCommands {
     @SubCommand(cmd = "reload ", msg = "重载插件", checkId = false)
     public void reload_Plugin_File(CommandSender sender, String[] args){
         ConfigManager.load();
+        ItemManager.init(YamlConfiguration.loadConfiguration(ConfigManager.items));
         sender.sendMessage("§a插件已重载");
     }
 
