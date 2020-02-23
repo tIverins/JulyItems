@@ -9,6 +9,7 @@ import github.july_summer.julyitems.skills.*;
 import github.july_summer.julyitems.utils.Util;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
@@ -31,7 +32,7 @@ public class FireballSkill extends SkillCooldown implements SkillExecute {
     }
 
     @Override
-    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event) {
+    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
         Location eyeLocation = p.getEyeLocation();
         int liveTick = Integer.parseInt(String.valueOf(ConfigManager.getValue("skills.fireball.liveTick")));
         Fireball fireball = (Fireball) p.getLocation().getWorld().spawnEntity(eyeLocation.add(eyeLocation.getDirection().multiply(1.5)), EntityType.FIREBALL);

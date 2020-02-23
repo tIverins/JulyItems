@@ -6,6 +6,7 @@ import github.july_summer.julyitems.item.ItemManager;
 import github.july_summer.julyitems.item.JItem;
 import github.july_summer.julyitems.potion.PotionManager;
 import github.july_summer.julyitems.skills.customskills.*;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
@@ -45,7 +46,7 @@ public class SkillManager {
      * @param data
      * @param event
      */
-    public static void execSkill(String skillName, Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event) {
+    public static void execSkill(String skillName, Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
         JItem jitem = ItemManager.getItem(ItemManager.getItemId(p.getInventory().getItem(triggerItemSlot)));
         if(cooldownClassMap.containsKey(skillName)){
             SkillCooldown skillCooldown = cooldownClassMap.get(skillName);
@@ -58,11 +59,11 @@ public class SkillManager {
                 }
                 return;
             }
-            skillMap.get(skillName).exec(p, triggerItemSlot, trigger, data, event);
+            skillMap.get(skillName).exec(p, triggerItemSlot, trigger, data, event, triggerEntity);
             skillCooldown.setCooldown(p.getName(), skillCooldown.getCooldown(data));
             return;
         }
-        skillMap.get(skillName).exec(p, triggerItemSlot, trigger, data, event);
+        skillMap.get(skillName).exec(p, triggerItemSlot, trigger, data, event, triggerEntity);
     }
 
     /**
@@ -72,13 +73,13 @@ public class SkillManager {
      * @param trigger
      * @param event
      */
-    public static void triggerItem(Player p, int triggerItemSlot, SkillTrigger trigger, Event event){
+    public static void triggerItem(Player p, int triggerItemSlot, SkillTrigger trigger, Event event, Entity triggerEntity){
         ItemStack item = p.getInventory().getItem(triggerItemSlot);
         if(ItemManager.isJItem(item)){
             JItem jitem = ItemManager.getItem(ItemManager.getItemId(item));
             Map<String, SkillData> skillMap = jitem.getTriggerSkillMap(trigger);
             for(Map.Entry<String, SkillData> map : skillMap.entrySet()) {
-                SkillManager.execSkill(map.getKey(), p, triggerItemSlot, trigger, map.getValue(), event);
+                SkillManager.execSkill(map.getKey(), p, triggerItemSlot, trigger, map.getValue(), event, triggerEntity);
             }
             List<PotionEffectType> potionList = jitem.getTriggerPotionName(trigger);
             for(PotionEffectType potion : potionList){

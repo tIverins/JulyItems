@@ -33,7 +33,7 @@ public class BlindingSkill implements SkillExecute, SkillCustomLore{
     }
 
     @Override
-    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event) {
+    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
         if(event instanceof EntityDamageByEntityEvent){
             EntityDamageByEntityEvent damageByEntityEvent = (EntityDamageByEntityEvent) event;
             Entity entity = damageByEntityEvent.getEntity();

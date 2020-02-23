@@ -7,6 +7,7 @@ import github.july_summer.julyitems.skills.*;
 import github.july_summer.julyitems.utils.Util;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -18,7 +19,7 @@ public class TeleportDirectionSkill extends SkillCooldown implements SkillExecut
     }
 
     @Override
-    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event) {
+    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
         Block block = p.getTargetBlock(null, Integer.parseInt(String.valueOf(data.getData(0))));
         p.teleport(block.getLocation());
     }

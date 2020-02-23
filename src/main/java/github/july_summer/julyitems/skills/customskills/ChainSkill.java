@@ -1,6 +1,5 @@
 package github.july_summer.julyitems.skills.customskills;
 
-import com.sun.net.httpserver.Filter;
 import github.july_summer.julyitems.ConfigManager;
 import github.july_summer.julyitems.command.SubCommand;
 import github.july_summer.julyitems.item.ItemManager;
@@ -11,12 +10,12 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ChainSkill implements SkillExecute {
@@ -55,7 +54,7 @@ public class ChainSkill implements SkillExecute {
     }
 
     @Override
-    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event) {
+    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
         if(event instanceof BlockBreakEvent){
             BlockBreakEvent blockBreakEvent = (BlockBreakEvent)event;
             if(blockBreakEvent.isCancelled()){

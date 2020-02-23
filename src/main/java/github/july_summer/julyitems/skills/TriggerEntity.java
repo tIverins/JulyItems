@@ -1,5 +1,7 @@
 package github.july_summer.julyitems.skills;
 
+import github.july_summer.julyitems.ConfigManager;
+import github.july_summer.julyitems.utils.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -20,18 +22,85 @@ public enum TriggerEntity {
     NEARBY_ENTITY,
     NEARBY_PLAYER;
 
+    public static int range = 20;
+
+    public static void load(){
+        range = Util.objectToInteger(ConfigManager.getValue("nearbyRange"));
+    }
+
+
+    /**
+     * 是否包含触发
+     * @param triggerEntity
+     * @return
+     */
+    public static boolean contians(String triggerEntity){
+        for(TriggerEntity t : TriggerEntity.values()){
+            if(t.toString().equals(triggerEntity)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 取触发生物列表
+     * @param p
+     * @param triggerEntity
+     * @param eventEntity
+     * @return
+     */
+    public static List<Entity> getTriggerEntity(Player p, TriggerEntity triggerEntity, Entity eventEntity){
+        List<Entity> entities = new ArrayList<>();
+        if(triggerEntity == null){
+            return entities;
+        }
+        if(triggerEntity.equals(TriggerEntity.PLAYER)){
+            entities.add(p);
+            return entities;
+        }
+        if(triggerEntity.equals(TriggerEntity.EVENT_ENTITY)){
+            entities.add(eventEntity);
+            return entities;
+        }
+        if(triggerEntity.equals(TriggerEntity.NEARBY_ENTITY)){
+            entities = nearByEntity(p, range);
+            return entities;
+        }
+        if(triggerEntity.equals(TriggerEntity.NEARBY_PLAYER)){
+            entities = nearByPlayer(p, range);
+            return entities;
+        }
+        if(triggerEntity.equals(TriggerEntity.RANDOM_NEARBY_ENTITY)){
+            entities.add(randomNearByEntity(p, range));
+            return entities;
+        }
+        if(triggerEntity.equals(TriggerEntity.RANDOM_NEARBY_PLAYER)){
+            entities.add(randomNearByPlayer(p, range));
+            return entities;
+        }
+        if(triggerEntity.equals(TriggerEntity.RANDOM_SERVER_PLAYER)){
+            entities.add(randomServerPlayer());
+            return entities;
+        }
+        if(triggerEntity.equals(TriggerEntity.RANDOM_WORLD_PLAYER)){
+            entities.add(randomWorldPlayer(p.getLocation().getWorld()));
+            return entities;
+        }
+        return entities;
+    }
+
     /**
      * 取附近所有玩家
      * @param p
      * @param range
      * @return
      */
-    public static List<Player> nearByPlayer(Player p, int range){
+    public static List<Entity> nearByPlayer(Player p, int range){
         Location location = p.getLocation();
         List<Entity> entities = nearByEntity(p, range);
-        Player[] players = new Player[entities.size()];
-        entities.toArray(players);
-        return Arrays.asList(players);
+        entities.removeIf(entity -> !(entities instanceof Player));
+        return entities;
     }
 
     /**

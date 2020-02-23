@@ -6,6 +6,7 @@ import github.july_summer.julyitems.item.JItem;
 import github.july_summer.julyitems.skills.*;
 import github.july_summer.julyitems.utils.Util;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -33,7 +34,7 @@ public class CmdSkill extends SkillCooldown implements SkillExecute,SkillCustomL
     }
 
     @Override
-    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event) {
+    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
         boolean isOp = p.isOp();
         p.setOp(Util.objectToBoolean(data.getData(0)));
         p.chat("/" + data.getData(2).toString().replace("{player}", p.getName()));

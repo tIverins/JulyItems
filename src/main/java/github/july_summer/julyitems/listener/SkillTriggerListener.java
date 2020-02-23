@@ -20,31 +20,31 @@ public class SkillTriggerListener implements Listener {
 
     public static void lastHeldTask(){
         for(Player p : Bukkit.getOnlinePlayers()){
-            SkillManager.triggerItem(p, p.getInventory().getHeldItemSlot(), SkillTrigger.LAST_HELD, null);
+            SkillManager.triggerItem(p, p.getInventory().getHeldItemSlot(), SkillTrigger.LAST_HELD, null, p);
         }
     }
 
     @EventHandler
     public void onHeld(PlayerItemHeldEvent event){
         Player p = event.getPlayer();
-        SkillManager.triggerItem(p, event.getNewSlot(), SkillTrigger.FIRST_HELD, event);
+        SkillManager.triggerItem(p, event.getNewSlot(), SkillTrigger.FIRST_HELD, event, p);
     }
 
     @EventHandler
     public void onBreak(BlockBreakEvent event){
         Player p = event.getPlayer();
-        SkillManager.triggerItem(p, p.getInventory().getHeldItemSlot(), SkillTrigger.BREAK_BLOCK, event);
+        SkillManager.triggerItem(p, p.getInventory().getHeldItemSlot(), SkillTrigger.BREAK_BLOCK, event, p);
     }
 
     @EventHandler
     public void onClick(PlayerInteractEvent event){
         Player p = event.getPlayer();
         if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK){
-            SkillManager.triggerItem(p, p.getInventory().getHeldItemSlot(), SkillTrigger.RIGHT_CLICK, event);
+            SkillManager.triggerItem(p, p.getInventory().getHeldItemSlot(), SkillTrigger.RIGHT_CLICK, event, p);
         }
 
         if(event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK){
-            SkillManager.triggerItem(p, p.getInventory().getHeldItemSlot(), SkillTrigger.LEFT_CLICK, event);
+            SkillManager.triggerItem(p, p.getInventory().getHeldItemSlot(), SkillTrigger.LEFT_CLICK, event, p);
         }
     }
 
@@ -61,26 +61,26 @@ public class SkillTriggerListener implements Listener {
         if(damager instanceof Player){
             Player p = (Player)damager;
             for(int slot : InventoryUtil.getMainHandAndArmorContentsSlots(p)){
-                SkillManager.triggerItem(p, slot, SkillTrigger.ATTACK, event);
+                SkillManager.triggerItem(p, slot, SkillTrigger.ATTACK, event, entity);
                 if(entity instanceof Player){
-                    SkillManager.triggerItem(p, slot, SkillTrigger.ATTACK_PLAYER, event);
+                    SkillManager.triggerItem(p, slot, SkillTrigger.ATTACK_PLAYER, event, entity);
                     return;
                 }
                 if(entity instanceof LivingEntity){
-                    SkillManager.triggerItem(p, slot, SkillTrigger.ATTACK_ENTITY, event);
+                    SkillManager.triggerItem(p, slot, SkillTrigger.ATTACK_ENTITY, event, entity);
                 }
             }
         }
         if(entity instanceof Player){
             Player p = (Player)entity;
             for(int slot : InventoryUtil.getMainHandAndArmorContentsSlots(p)){
-                SkillManager.triggerItem(p, slot, SkillTrigger.GET_DAMAGE, event);
+                SkillManager.triggerItem(p, slot, SkillTrigger.GET_DAMAGE, event, entity);
                 if(damager instanceof Player){
-                    SkillManager.triggerItem(p, slot, SkillTrigger.GET_PLAYER_DAMAGE, event);
+                    SkillManager.triggerItem(p, slot, SkillTrigger.GET_PLAYER_DAMAGE, event, entity);
                     return;
                 }
                 if(damager instanceof LivingEntity){
-                    SkillManager.triggerItem(p, slot, SkillTrigger.GET_ENTITY_DAMAGE, event);
+                    SkillManager.triggerItem(p, slot, SkillTrigger.GET_ENTITY_DAMAGE, event, entity);
                 }
             }
         }

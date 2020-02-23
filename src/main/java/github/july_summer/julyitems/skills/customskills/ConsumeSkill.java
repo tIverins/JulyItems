@@ -7,6 +7,7 @@ import github.july_summer.julyitems.item.JItem;
 import github.july_summer.julyitems.skills.*;
 import github.july_summer.julyitems.utils.Util;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
@@ -35,7 +36,7 @@ public class ConsumeSkill extends SkillCooldown implements SkillExecute, SkillCu
     }
 
     @Override
-    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event) {
+    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
         ItemStack triggerItem = p.getInventory().getItem(triggerItemSlot);
         int amount = triggerItem.getAmount() - 1 <= 0 ? 0 : triggerItem.getAmount() - 1;
         triggerItem.setAmount(amount);

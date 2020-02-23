@@ -15,13 +15,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class LightSkill implements SkillExecute, SkillCustomLore {
 
     public static HashMap<Integer, Integer> entityIdMap = Maps.newHashMap();
 
-    public LightSkill(){
+    public LightSkill() {
         SkillManager.registerCommand(LightSkill.class);
         SkillManager.registerCustomLore("light", this);
     }
@@ -37,18 +39,18 @@ public class LightSkill implements SkillExecute, SkillCustomLore {
     }
 
     @Override
-    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event) {
-        if(event instanceof EntityDamageByEntityEvent){
-            EntityDamageByEntityEvent damageByEntityEvent = (EntityDamageByEntityEvent) event;
-            Entity entity = damageByEntityEvent.getEntity();
-            if(entity instanceof LivingEntity){
-                LivingEntity livingEntity = (LivingEntity)entity;
-                if(Util.isChance(Util.objectToInteger(data.getData(0)))) {
+    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
+        List<Entity> entities = TriggerEntity.getTriggerEntity(p, TriggerEntity.NEARBY_ENTITY, triggerEntity);
+        entities.forEach(System.out::print);
+        for(Entity entity : entities) {
+            if (entity instanceof LivingEntity) {
+                LivingEntity livingEntity = (LivingEntity) entity;
+                if (Util.isChance(Util.objectToInteger(data.getData(1)))) {
                     LightningStrike light = livingEntity.getWorld().strikeLightning(livingEntity.getLocation());
-                    entityIdMap.put(light.getEntityId(), Util.objectToInteger(data.getData(1)));
+                    entityIdMap.put(light.getEntityId(), Util.objectToInteger(data.getData(2)));
 
-                    if(entity instanceof Player){
-                        ((Player)entity).sendTitle((String) ConfigManager.getValue("skills.light.entityTitle"), "");
+                    if (triggerEntity instanceof Player) {
+                        ((Player) triggerEntity).sendTitle((String) ConfigManager.getValue("skills.light.entityTitle"), "");
                     }
                     p.sendTitle((String) ConfigManager.getValue("skills.light.damagerTitle"), "");
                 }
@@ -56,14 +58,22 @@ public class LightSkill implements SkillExecute, SkillCustomLore {
         }
     }
 
-    @SubCommand(cmd = "addSkill light <几率> <伤害>", msg = "添加闪电技能", checkArgs1 = 2, checkArgs2 = 1)
+    @SubCommand(cmd = "addSkill light <触发方式> <触发目标> <几率> <伤害>", msg = "添加闪电技能", checkArgs1 = 2, checkArgs2 = 1)
     public static void lightSkill(CommandSender sender, String[] args){
-        if(!Util.isNumber(args[3]) || !Util.isNumber(args[4])){
+        if(!SkillTrigger.contains(args[3])){
+            sender.sendMessage("§c未知触发方式");
+            return;
+        }
+        if(!TriggerEntity.contians(args[4])){
+            sender.sendMessage("§c未知触发目标");
+            return;
+        }
+        if(!Util.isNumber(args[5]) || !Util.isNumber(args[6])){
             sender.sendMessage("§c几率/伤害 请填写整数");
             return;
         }
         JItem jitem = ItemManager.getItem(args[0]);
-        jitem.addSkill(args[2], SkillTrigger.ATTACK_ENTITY, new SkillData(new Object[]{args[3], args[4]}));
+        jitem.addSkill(args[2], SkillTrigger.valueOf(args[3]), new SkillData(new Object[]{args[4], args[5], args[6]}));
         sender.sendMessage("§a技能 " + SkillManager.skillDisplayNameMap.get("light") + " 添加成功");
     }
 

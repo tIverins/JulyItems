@@ -10,6 +10,7 @@ import github.july_summer.julyitems.utils.Util;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -30,7 +31,7 @@ public class FireArrowSkill extends SkillCooldown implements SkillExecute {
     }
 
     @Override
-    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event) {
+    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
         Location eyeLocation = p.getEyeLocation();
         int liveTick = Integer.parseInt(String.valueOf(ConfigManager.getValue("skills.firearrow.liveTick")));
         Arrow arrow = (Arrow)p.launchProjectile(Arrow.class);
