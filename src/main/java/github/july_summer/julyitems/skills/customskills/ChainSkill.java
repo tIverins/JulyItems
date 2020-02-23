@@ -68,7 +68,7 @@ public class ChainSkill implements SkillExecute {
         }
     }
 
-    @SubCommand(cmd = "addSkill chain <范围>", msg = "添加连锁挖矿技能", checkArgs1 = 2, checkArgs2 = 1)
+    @SubCommand(cmd = "addSkill chain <直线距离>", msg = "添加连锁挖矿技能", checkArgs1 = 2, checkArgs2 = 1)
     public static void chain(CommandSender sender, String[] args){
         if(!Util.isNumber(args[3])){
             sender.sendMessage("§c范围必须是整数");
