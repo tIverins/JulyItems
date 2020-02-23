@@ -1,3 +1,7 @@
+#this's 'items.yml' Data Format Version
+#Don't change
+data-version: 1.0.0
+#Other set
 durability:
   #must have '%durability%/%maxDurability%'
   displayLore: "&7耐久度: %durability%/%maxDurability%"
