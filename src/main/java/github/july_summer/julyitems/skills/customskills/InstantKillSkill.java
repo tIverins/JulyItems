@@ -14,6 +14,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+import java.util.List;
+
 public class InstantKillSkill implements SkillExecute, SkillCustomLore{
 
     public InstantKillSkill(){
@@ -33,31 +35,39 @@ public class InstantKillSkill implements SkillExecute, SkillCustomLore{
 
     @Override
     public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
-        if(event instanceof EntityDamageByEntityEvent){
-            EntityDamageByEntityEvent damageByEntityEvent = (EntityDamageByEntityEvent) event;
-            Entity entity = damageByEntityEvent.getEntity();
-            if(entity instanceof LivingEntity){
-                LivingEntity livingEntity = (LivingEntity)entity;
-                if(Util.isChance(Util.objectToInteger(data.getData(0)))) {
-                    Damageable damageable = (Damageable)livingEntity;
+        boolean isChance = Util.isChance(Util.objectToInteger(data.getData(1)));
+        if (isChance) {
+            TriggerEntity triggerEntity1 = TriggerEntity.valueOf(data.getData(0).toString());
+            List<Entity> entities = TriggerEntity.getTriggerEntity(p, triggerEntity1, triggerEntity);
+            entities.forEach(entity -> {
+                if (entity instanceof Damageable) {
+                    Damageable damageable = (Damageable) entity;
                     damageable.setHealth(0.0);
-                    if(entity instanceof Player){
-                        ((Player)entity).sendTitle((String) ConfigManager.getValue("skills.instantkill.entityTitle"), "");
+                    if (entity instanceof Player) {
+                        ((Player) entity).sendTitle((String) ConfigManager.getValue("skills.instantkill.entityTitle"), "");
                     }
-                    p.sendTitle((String) ConfigManager.getValue("skills.instantkill.damagerTitle"), "");
                 }
-            }
+            });
+            p.sendTitle((String) ConfigManager.getValue("skills.instantkill.damagerTitle"), "");
         }
     }
 
-    @SubCommand(cmd = "addSkill instantkill <几率>", msg = "添加瞬杀技能", checkArgs1 = 2, checkArgs2 = 1)
+    @SubCommand(cmd = "addSkill <触发方式> <触发目标> instantkill <几率>", msg = "添加瞬杀技能", checkArgs1 = 2, checkArgs2 = 1)
     public static void blindingSkill(CommandSender sender, String[] args){
-        if(!Util.isNumber(args[3])){
+        if(!SkillTrigger.contains(args[3])){
+            sender.sendMessage("§c未知触发方式");
+            return;
+        }
+        if(!TriggerEntity.contians(args[4])){
+            sender.sendMessage("§c未知触发目标");
+            return;
+        }
+        if(!Util.isNumber(args[5])){
             sender.sendMessage("§c几率请填写整数");
             return;
         }
         JItem jitem = ItemManager.getItem(args[0]);
-        jitem.addSkill(args[2], SkillTrigger.ATTACK_ENTITY, new SkillData(new Object[]{args[3]}));
+        jitem.addSkill(args[2], SkillTrigger.valueOf(args[3]), new SkillData(new Object[]{args[4], args[5]}));
         sender.sendMessage("§a技能 " + SkillManager.skillDisplayNameMap.get("instantkill") + " 添加成功");
     }
 

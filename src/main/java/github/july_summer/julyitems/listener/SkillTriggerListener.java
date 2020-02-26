@@ -76,11 +76,11 @@ public class SkillTriggerListener implements Listener {
             for(int slot : InventoryUtil.getMainHandAndArmorContentsSlots(p)){
                 SkillManager.triggerItem(p, slot, SkillTrigger.GET_DAMAGE, event, entity);
                 if(damager instanceof Player){
-                    SkillManager.triggerItem(p, slot, SkillTrigger.GET_PLAYER_DAMAGE, event, entity);
+                    SkillManager.triggerItem(p, slot, SkillTrigger.GET_PLAYER_DAMAGE, event, damager);
                     return;
                 }
                 if(damager instanceof LivingEntity){
-                    SkillManager.triggerItem(p, slot, SkillTrigger.GET_ENTITY_DAMAGE, event, entity);
+                    SkillManager.triggerItem(p, slot, SkillTrigger.GET_ENTITY_DAMAGE, event, damager);
                 }
             }
         }

@@ -13,6 +13,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+import java.util.List;
+
 public class IgniteSkill implements SkillExecute, SkillCustomLore {
 
     public IgniteSkill(){
@@ -32,30 +34,39 @@ public class IgniteSkill implements SkillExecute, SkillCustomLore {
 
     @Override
     public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
-        if(event instanceof EntityDamageByEntityEvent){
-            EntityDamageByEntityEvent damageByEntityEvent = (EntityDamageByEntityEvent) event;
-            Entity entity = damageByEntityEvent.getEntity();
-            if(entity instanceof LivingEntity){
-                LivingEntity livingEntity = (LivingEntity)entity;
-                if(Util.isChance(Util.objectToInteger(data.getData(0)))) {
+        boolean isChance = Util.isChance(Util.objectToInteger(data.getData(1)));
+        if (isChance) {
+            TriggerEntity triggerEntity1 = TriggerEntity.valueOf(data.getData(0).toString());
+            List<Entity> entities = TriggerEntity.getTriggerEntity(p, triggerEntity1, triggerEntity);
+            entities.forEach(entity -> {
+                if (entity instanceof LivingEntity) {
+                    LivingEntity livingEntity = (LivingEntity) entity;
                     livingEntity.setFireTicks(Util.objectToInteger(data.getData(1)) * 20);
-                    if(entity instanceof Player){
-                        ((Player)entity).sendTitle((String) ConfigManager.getValue("skills.ignite.entityTitle"), "");
+                    if (entity instanceof Player) {
+                        ((Player) entity).sendTitle((String) ConfigManager.getValue("skills.ignite.entityTitle"), "");
                     }
-                    p.sendTitle((String) ConfigManager.getValue("skills.ignite.damagerTitle"), "");
                 }
-            }
+            });
+            p.sendTitle((String) ConfigManager.getValue("skills.ignite.damagerTitle"), "");
         }
     }
 
-    @SubCommand(cmd = "addSkill ignite <几率> <持续时间:秒>", msg = "添加点燃技能", checkArgs1 = 2, checkArgs2 = 1)
+    @SubCommand(cmd = "addSkill ignite <触发方式> <触发对象> <几率> <持续时间:秒>", msg = "添加点燃技能", checkArgs1 = 2, checkArgs2 = 1)
     public static void igniteSkill(CommandSender sender, String[] args){
-        if(!Util.isNumber(args[3]) || !Util.isNumber(args[4])){
+        if(!SkillTrigger.contains(args[3])){
+            sender.sendMessage("§c未知触发方式");
+            return;
+        }
+        if(!TriggerEntity.contians(args[4])){
+            sender.sendMessage("§c未知触发目标");
+            return;
+        }
+        if(!Util.isNumber(args[5]) || !Util.isNumber(args[6])){
             sender.sendMessage("§c几率/持续时间 请填写整数");
             return;
         }
         JItem jitem = ItemManager.getItem(args[0]);
-        jitem.addSkill(args[2], SkillTrigger.ATTACK_ENTITY, new SkillData(new Object[]{args[3], args[4]}));
+        jitem.addSkill(args[2], SkillTrigger.valueOf(args[3]), new SkillData(new Object[]{args[4], args[5], args[6]}));
         sender.sendMessage("§a技能 " + SkillManager.skillDisplayNameMap.get("ignite") + " 添加成功");
     }
 

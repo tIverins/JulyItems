@@ -40,21 +40,24 @@ public class LightSkill implements SkillExecute, SkillCustomLore {
 
     @Override
     public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
-        List<Entity> entities = TriggerEntity.getTriggerEntity(p, TriggerEntity.NEARBY_ENTITY, triggerEntity);
-        entities.forEach(System.out::print);
-        for(Entity entity : entities) {
-            if (entity instanceof LivingEntity) {
-                LivingEntity livingEntity = (LivingEntity) entity;
-                if (Util.isChance(Util.objectToInteger(data.getData(1)))) {
+        boolean isChance = Util.isChance(Util.objectToInteger(data.getData(1)));
+        if(isChance) {
+            TriggerEntity triggerEntity1 = TriggerEntity.valueOf(data.getData(0).toString());
+
+            int damage = Util.objectToInteger(data.getData(2));
+            List<Entity> entities = TriggerEntity.getTriggerEntity(p, triggerEntity1, triggerEntity);
+            entities.forEach(entity -> {
+                if (entity instanceof LivingEntity) {
+                    LivingEntity livingEntity = (LivingEntity) entity;
                     LightningStrike light = livingEntity.getWorld().strikeLightning(livingEntity.getLocation());
-                    entityIdMap.put(light.getEntityId(), Util.objectToInteger(data.getData(2)));
+                    entityIdMap.put(light.getEntityId(), damage);
 
                     if (triggerEntity instanceof Player) {
                         ((Player) triggerEntity).sendTitle((String) ConfigManager.getValue("skills.light.entityTitle"), "");
                     }
-                    p.sendTitle((String) ConfigManager.getValue("skills.light.damagerTitle"), "");
                 }
-            }
+            });
+            p.sendTitle((String) ConfigManager.getValue("skills.light.damagerTitle"), "");
         }
     }
 
