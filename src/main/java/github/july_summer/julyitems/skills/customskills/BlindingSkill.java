@@ -31,7 +31,7 @@ public class BlindingSkill implements SkillExecute, SkillCustomLore{
 
     @Override
     public String getSkillDisplayLore(SkillData data) {
-        return ConfigManager.getValue("defaultDisplayLore.skill.customLore.chanceDisplayLore").toString().replace("{chance}", data.getData(0).toString());
+        return ConfigManager.getValue("defaultDisplayLore.skill.customLore.chanceDisplayLore").toString().replace("{chance}", data.getData(1).toString());
     }
 
     @Override
