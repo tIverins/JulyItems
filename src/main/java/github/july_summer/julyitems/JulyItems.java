@@ -34,9 +34,9 @@ public class JulyItems extends JavaPlugin {
         DropManager.initEntityDrop();
         RecipeManager.initCrafting();
         ItemManager.init(YamlConfiguration.loadConfiguration(ConfigManager.items));
+        getCommand("julyitem").setExecutor(new Commands());
         Bukkit.getScheduler().runTaskTimer(this, () -> SkillCooldown.runTask(), 20 , 20);
         Bukkit.getScheduler().runTaskTimer(this, () -> SkillTriggerListener.lastHeldTask(), 20 , 20);
-        getCommand("julyitem").setExecutor(new Commands());
         getServer().getPluginManager().registerEvents(new ItemUpDateLlistener(), this);
         getServer().getPluginManager().registerEvents(new DamageListener(), this);
         getServer().getPluginManager().registerEvents(new SkillTriggerListener(), this);
