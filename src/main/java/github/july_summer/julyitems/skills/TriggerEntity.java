@@ -100,6 +100,7 @@ public enum TriggerEntity {
         Location location = p.getLocation();
         List<Entity> entities = nearByEntity(p, range);
         entities.removeIf(entity -> !(entities instanceof Player));
+        entities.remove(p);
         return entities;
     }
 
@@ -111,7 +112,9 @@ public enum TriggerEntity {
      */
     public static List<Entity> nearByEntity(Player p, int range){
         Location location = p.getLocation();
-        return new ArrayList<Entity>(location.getWorld().getNearbyEntities(location, range, range, range));
+        List<Entity> entities = new ArrayList<Entity>(location.getWorld().getNearbyEntities(location, range, range, range));
+        entities.remove(p);
+        return entities;
     }
 
     /**
@@ -129,6 +132,7 @@ public enum TriggerEntity {
                 entities.add((LivingEntity)entity);
             }
         }
+        entities.remove(p);
         return entities.get(new Random().nextInt(entities.size()));
     }
 
@@ -147,6 +151,7 @@ public enum TriggerEntity {
                 players.add((Player)entity);
             }
         }
+        players.remove(p);
         return players.get(new Random().nextInt(players.size()));
     }
 
