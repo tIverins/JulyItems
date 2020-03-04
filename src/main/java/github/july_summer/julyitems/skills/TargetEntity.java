@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
-public enum TriggerEntity {
+public enum TargetEntity {
 
     PLAYER,
     EVENT_ENTITY,
@@ -35,7 +35,7 @@ public enum TriggerEntity {
      * @return
      */
     public static boolean contians(String triggerEntity){
-        for(TriggerEntity t : TriggerEntity.values()){
+        for(TargetEntity t : TargetEntity.values()){
             if(t.toString().equals(triggerEntity)){
                 return true;
             }
@@ -50,40 +50,40 @@ public enum TriggerEntity {
      * @param eventEntity
      * @return
      */
-    public static List<Entity> getTriggerEntity(Player p, TriggerEntity triggerEntity, Entity eventEntity){
+    public static List<Entity> getTargetEntity(Player p, TargetEntity triggerEntity, Entity eventEntity){
         List<Entity> entities = new ArrayList<>();
         if(triggerEntity == null){
             return entities;
         }
-        if(triggerEntity.equals(TriggerEntity.PLAYER)){
+        if(triggerEntity.equals(TargetEntity.PLAYER)){
             entities.add(p);
             return entities;
         }
-        if(triggerEntity.equals(TriggerEntity.EVENT_ENTITY)){
+        if(triggerEntity.equals(TargetEntity.EVENT_ENTITY)){
             entities.add(eventEntity);
             return entities;
         }
-        if(triggerEntity.equals(TriggerEntity.NEARBY_ENTITY)){
+        if(triggerEntity.equals(TargetEntity.NEARBY_ENTITY)){
             entities = nearByEntity(p, range);
             return entities;
         }
-        if(triggerEntity.equals(TriggerEntity.NEARBY_PLAYER)){
+        if(triggerEntity.equals(TargetEntity.NEARBY_PLAYER)){
             entities = nearByPlayer(p, range);
             return entities;
         }
-        if(triggerEntity.equals(TriggerEntity.RANDOM_NEARBY_ENTITY)){
+        if(triggerEntity.equals(TargetEntity.RANDOM_NEARBY_ENTITY)){
             entities.add(randomNearByEntity(p, range));
             return entities;
         }
-        if(triggerEntity.equals(TriggerEntity.RANDOM_NEARBY_PLAYER)){
+        if(triggerEntity.equals(TargetEntity.RANDOM_NEARBY_PLAYER)){
             entities.add(randomNearByPlayer(p, range));
             return entities;
         }
-        if(triggerEntity.equals(TriggerEntity.RANDOM_SERVER_PLAYER)){
+        if(triggerEntity.equals(TargetEntity.RANDOM_SERVER_PLAYER)){
             entities.add(randomServerPlayer());
             return entities;
         }
-        if(triggerEntity.equals(TriggerEntity.RANDOM_WORLD_PLAYER)){
+        if(triggerEntity.equals(TargetEntity.RANDOM_WORLD_PLAYER)){
             entities.add(randomWorldPlayer(p.getLocation().getWorld()));
             return entities;
         }

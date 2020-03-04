@@ -38,8 +38,8 @@ public class FireballSkill extends SkillCooldown implements SkillExecute {
         Location eyeLocation = p.getEyeLocation();
         int damage = Util.objectToInteger(data.getData(1));
         int liveTick = Integer.parseInt(String.valueOf(ConfigManager.getValue("skills.fireball.liveTick")));
-        TriggerEntity triggerEntity1 = TriggerEntity.valueOf(data.getData(0).toString());
-        List<Entity> entities =  TriggerEntity.getTriggerEntity(p, triggerEntity1, triggerEntity);
+        TargetEntity triggerEntity1 = TargetEntity.valueOf(data.getData(0).toString());
+        List<Entity> entities =  TargetEntity.getTargetEntity(p, triggerEntity1, triggerEntity);
         entities.forEach(entity -> {
             Fireball fireball = (Fireball) entity.getLocation().getWorld().spawnEntity(eyeLocation.add(eyeLocation.getDirection().multiply(1.5)), EntityType.FIREBALL);
             fireball.setShooter((ProjectileSource) entity);
@@ -54,7 +54,7 @@ public class FireballSkill extends SkillCooldown implements SkillExecute {
             sender.sendMessage("§c未知的触发方式");
             return;
         }
-        if(!TriggerEntity.contians(args[4])){
+        if(!TargetEntity.contians(args[4])){
             sender.sendMessage("§c未知触发目标");
             return;
         }

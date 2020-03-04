@@ -55,6 +55,7 @@ public class ConfigManager {
             valueMap.put(node, value);
         }
         instance.saveResource("items.yml", false);
+        instance.saveResource("effects.yml", false);
     }
 
     public static Object getValue(String node){

@@ -19,7 +19,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
@@ -28,6 +27,7 @@ import java.util.regex.Pattern;
 public class ItemManager {
 
     public static JulyItems instance;
+    public static final String ITEMID_COLOR = new String("§d§d§d");
     public static YamlConfiguration itemData;
     public static List<Pattern> patterns = new ArrayList<>();
     public static Pattern durabilityLorePattern;
@@ -174,7 +174,7 @@ public class ItemManager {
      */
     public static String[] getDisplayName(ItemStack item) {
         String name = ItemUtil.getDisplayName(item);
-        return name.contains(JulyItems.ITEMID_COLOR) ? name.split(JulyItems.ITEMID_COLOR) : null;
+        return name.contains(ITEMID_COLOR) ? name.split(ITEMID_COLOR) : null;
     }
 
     /**
@@ -213,9 +213,9 @@ public class ItemManager {
     public static boolean checkItem(ItemStack item, String itemId) {
         boolean isChange = false;
         JItem jitem = ItemManager.getItem(itemId);
-        String displayName = ItemUtil.getDisplayName(item).replace(JulyItems.ITEMID_COLOR + Util.addColor(Util.toBinaryString(itemId)), "");
+        String displayName = ItemUtil.getDisplayName(item).replace(ITEMID_COLOR + Util.addColor(Util.toBinaryString(itemId)), "");
         if(!displayName.equals(jitem.getDisplayName())){
-            ItemUtil.setDisplayName(item, jitem.getDisplayName() + JulyItems.ITEMID_COLOR + Util.addColor(Util.toBinaryString(itemId)));
+            ItemUtil.setDisplayName(item, jitem.getDisplayName() + ITEMID_COLOR + Util.addColor(Util.toBinaryString(itemId)));
             isChange = true;
         }
         if (jitem.isCheckLore()) {

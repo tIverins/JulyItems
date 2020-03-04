@@ -19,24 +19,44 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class JulyItems extends JavaPlugin {
 
     public static JulyItems instance;
-    public final static String ITEMID_COLOR = "§d§d§d";
+
+    static {
+        instance = new JulyItems();
+    }
 
     public static JulyItems getInstance(){
         return instance;
     }
 
     @Override
+    public void onLoad(){
+        init();
+    }
+
+    @Override
     public void onEnable() {
-        instance = this;
+        registerListeners();
+        getCommand("julyitem").setExecutor(new Commands());
+    }
+
+    @Override
+    public void onDisable(){
+        Bukkit.getScheduler().cancelTasks(this);
+        HandlerList.unregisterAll();
+    }
+
+    public void init(){
         ConfigManager.initFile();
         PotionManager.initDefaultDisplayName(this);
         SkillManager.loadDefaultSkills();
         DropManager.initEntityDrop();
         RecipeManager.initCrafting();
         ItemManager.init(YamlConfiguration.loadConfiguration(ConfigManager.items));
-        getCommand("julyitem").setExecutor(new Commands());
         Bukkit.getScheduler().runTaskTimer(this, () -> SkillCooldown.runTask(), 20 , 20);
         Bukkit.getScheduler().runTaskTimer(this, () -> SkillTriggerListener.lastHeldTask(), 20 , 20);
+    }
+
+    public void registerListeners(){
         getServer().getPluginManager().registerEvents(new ItemUpDateLlistener(), this);
         getServer().getPluginManager().registerEvents(new DamageListener(), this);
         getServer().getPluginManager().registerEvents(new SkillTriggerListener(), this);
@@ -47,9 +67,4 @@ public class JulyItems extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new LightListener(), this);
     }
 
-    @Override
-    public void onDisable(){
-        Bukkit.getScheduler().cancelTasks(this);
-        HandlerList.unregisterAll();
-    }
 }

@@ -39,8 +39,8 @@ public class RecoilSkill extends SkillCooldown implements SkillExecute, SkillCus
 
     @Override
     public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
-        TriggerEntity triggerEntity1 = TriggerEntity.valueOf(data.getData(0).toString());
-        List<Entity> entities = TriggerEntity.getTriggerEntity(p, triggerEntity1, triggerEntity);
+        TargetEntity triggerEntity1 = TargetEntity.valueOf(data.getData(0).toString());
+        List<Entity> entities = TargetEntity.getTargetEntity(p, triggerEntity1, triggerEntity);
         entities.forEach(entity -> {
             Vector vector = entity.getLocation().getDirection();
             entity.setVelocity(vector.multiply((-Util.objectToInteger(data.getData(0))) / 10.0));
@@ -53,7 +53,7 @@ public class RecoilSkill extends SkillCooldown implements SkillExecute, SkillCus
             sender.sendMessage("§c未知的触发方式");
             return;
         }
-        if(!TriggerEntity.contians(args[4])){
+        if(!TargetEntity.contians(args[4])){
             sender.sendMessage("§c未知触发目标");
             return;
         }

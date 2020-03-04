@@ -13,9 +13,7 @@ import org.bukkit.entity.LightningStrike;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,10 +40,10 @@ public class LightSkill implements SkillExecute, SkillCustomLore {
     public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
         boolean isChance = Util.isChance(Util.objectToInteger(data.getData(1)));
         if(isChance) {
-            TriggerEntity triggerEntity1 = TriggerEntity.valueOf(data.getData(0).toString());
+            TargetEntity triggerEntity1 = TargetEntity.valueOf(data.getData(0).toString());
 
             int damage = Util.objectToInteger(data.getData(2));
-            List<Entity> entities = TriggerEntity.getTriggerEntity(p, triggerEntity1, triggerEntity);
+            List<Entity> entities = TargetEntity.getTargetEntity(p, triggerEntity1, triggerEntity);
             entities.forEach(entity -> {
                 if (entity instanceof LivingEntity) {
                     LivingEntity livingEntity = (LivingEntity) entity;
@@ -67,7 +65,7 @@ public class LightSkill implements SkillExecute, SkillCustomLore {
             sender.sendMessage("§c未知触发方式");
             return;
         }
-        if(!TriggerEntity.contians(args[4])){
+        if(!TargetEntity.contians(args[4])){
             sender.sendMessage("§c未知触发目标");
             return;
         }

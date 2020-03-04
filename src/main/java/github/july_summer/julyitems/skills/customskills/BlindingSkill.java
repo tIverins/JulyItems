@@ -12,7 +12,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
@@ -40,8 +39,8 @@ public class BlindingSkill implements SkillExecute, SkillCustomLore{
         if (isChance) {
             Integer[] potionData = new Integer[]{Util.objectToInteger(data.getData(2))
                     , Util.objectToInteger(data.getData(3))};
-            TriggerEntity triggerEntity1 = TriggerEntity.valueOf(data.getData(0).toString());
-            List<Entity> entities =  TriggerEntity.getTriggerEntity(p, triggerEntity1, triggerEntity);
+            TargetEntity triggerEntity1 = TargetEntity.valueOf(data.getData(0).toString());
+            List<Entity> entities =  TargetEntity.getTargetEntity(p, triggerEntity1, triggerEntity);
             entities.forEach(entity -> {
                 if (entity instanceof LivingEntity) {
                     LivingEntity livingEntity = (LivingEntity) entity;
@@ -61,7 +60,7 @@ public class BlindingSkill implements SkillExecute, SkillCustomLore{
             sender.sendMessage("§c未知触发方式");
             return;
         }
-        if(!TriggerEntity.contians(args[4])){
+        if(!TargetEntity.contians(args[4])){
             sender.sendMessage("§c未知触发目标");
             return;
         }

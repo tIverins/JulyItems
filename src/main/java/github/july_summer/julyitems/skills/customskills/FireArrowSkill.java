@@ -38,8 +38,8 @@ public class FireArrowSkill extends SkillCooldown implements SkillExecute {
         Location eyeLocation = p.getEyeLocation();
         int liveTick = Integer.parseInt(String.valueOf(ConfigManager.getValue("skills.firearrow.liveTick")));
         int damage = Util.objectToInteger(data.getData(1));
-        TriggerEntity triggerEntity1 = TriggerEntity.valueOf(data.getData(0).toString());
-        List<Entity> entities =  TriggerEntity.getTriggerEntity(p, triggerEntity1, triggerEntity);
+        TargetEntity triggerEntity1 = TargetEntity.valueOf(data.getData(0).toString());
+        List<Entity> entities =  TargetEntity.getTargetEntity(p, triggerEntity1, triggerEntity);
         entities.forEach(entity -> {
             if(entities instanceof LivingEntity) {
                 LivingEntity livingEntity = (LivingEntity)entity;
@@ -59,7 +59,7 @@ public class FireArrowSkill extends SkillCooldown implements SkillExecute {
             sender.sendMessage("§c未知的触发方式");
             return;
         }
-        if(!TriggerEntity.contians(args[4])){
+        if(!TargetEntity.contians(args[4])){
             sender.sendMessage("§c未知触发目标");
             return;
         }

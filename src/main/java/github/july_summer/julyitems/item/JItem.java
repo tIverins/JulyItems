@@ -2,7 +2,6 @@ package github.july_summer.julyitems.item;
 
 import com.google.common.collect.Maps;
 import github.july_summer.julyitems.ConfigManager;
-import github.july_summer.julyitems.JulyItems;
 import github.july_summer.julyitems.drop.DropManager;
 import github.july_summer.julyitems.potion.PotionManager;
 import github.july_summer.julyitems.recipe.RecipeData;
@@ -96,7 +95,7 @@ public class JItem{
         return isCheckEnchantment;
     }
 
-    public boolean isCheckLore(){
+    public boolean isCheckLore() {
         return isCheckLore;
     }
 
@@ -141,7 +140,7 @@ public class JItem{
         List<String> list = new ArrayList<>();
         skillLoreList.forEach(list::add);
         loreList.forEach(list::add);
-        if(durabilityLore != null && type.getMaxDurability() != 0) {
+        if(durabilityLore != null && durability != 0) {
             list.add(durabilityLore);
         }
         return list;
@@ -406,7 +405,7 @@ public class JItem{
         ItemStack item = new ItemStack(type);
         updateDefaultLore();
         ItemMeta im = item.getItemMeta();
-        im.setDisplayName(displayName + JulyItems.ITEMID_COLOR + Util.addColor(Util.toBinaryString(itemId)));
+        im.setDisplayName(displayName + ItemManager.ITEMID_COLOR + Util.addColor(Util.toBinaryString(itemId)));
         im.setLocalizedName(displayName);
         im.setLore(getSkillLoreList());
         im.setUnbreakable(unbreakable);
