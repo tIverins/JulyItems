@@ -37,6 +37,7 @@ public class SkillManager {
         registerSkill("ignite", new IgniteSkill(), "点燃");
         registerSkill("recoil", new RecoilSkill(), "反跳");
         registerSkill("chain", new ChainSkill(), "连锁挖矿");
+        registerSkill("effect", new EffectSkills(), "粒子组");
     }
 
     /**

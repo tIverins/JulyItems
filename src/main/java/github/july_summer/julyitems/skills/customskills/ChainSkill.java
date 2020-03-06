@@ -54,7 +54,7 @@ public class ChainSkill implements SkillExecute {
     }
 
     @Override
-    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
+    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity eventEntity) {
         if(event instanceof BlockBreakEvent){
             BlockBreakEvent blockBreakEvent = (BlockBreakEvent)event;
             if(blockBreakEvent.isCancelled()){

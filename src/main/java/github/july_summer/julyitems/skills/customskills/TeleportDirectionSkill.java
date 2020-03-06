@@ -27,10 +27,10 @@ public class TeleportDirectionSkill extends SkillCooldown implements SkillExecut
     }
 
     @Override
-    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
+    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity eventEntity) {
         int range = Integer.parseInt(String.valueOf(data.getData(1)));
         TargetEntity triggerEntity1 = TargetEntity.valueOf(data.getData(0).toString());
-        List<Entity> entities = TargetEntity.getTargetEntity(p, triggerEntity1, triggerEntity);
+        List<Entity> entities = TargetEntity.getTargetEntity(p, triggerEntity1, eventEntity);
         entities.forEach(entity -> {
             if(entity instanceof LivingEntity) {
                 LivingEntity livingEntity = (LivingEntity) entity;

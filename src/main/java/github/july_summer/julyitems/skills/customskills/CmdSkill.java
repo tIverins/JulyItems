@@ -34,7 +34,7 @@ public class CmdSkill extends SkillCooldown implements SkillExecute,SkillCustomL
     }
 
     @Override
-    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
+    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity eventEntity) {
         boolean isOp = p.isOp();
         p.setOp(Util.objectToBoolean(data.getData(0)));
         p.chat("/" + data.getData(2).toString().replace("{player}", p.getName()));

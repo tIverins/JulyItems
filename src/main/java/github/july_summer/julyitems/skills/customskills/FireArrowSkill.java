@@ -34,12 +34,12 @@ public class FireArrowSkill extends SkillCooldown implements SkillExecute {
     }
 
     @Override
-    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
+    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity eventEntity) {
         Location eyeLocation = p.getEyeLocation();
         int liveTick = Integer.parseInt(String.valueOf(ConfigManager.getValue("skills.firearrow.liveTick")));
         int damage = Util.objectToInteger(data.getData(1));
         TargetEntity triggerEntity1 = TargetEntity.valueOf(data.getData(0).toString());
-        List<Entity> entities =  TargetEntity.getTargetEntity(p, triggerEntity1, triggerEntity);
+        List<Entity> entities =  TargetEntity.getTargetEntity(p, triggerEntity1, eventEntity);
         entities.forEach(entity -> {
             if(entities instanceof LivingEntity) {
                 LivingEntity livingEntity = (LivingEntity)entity;

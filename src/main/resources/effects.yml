@@ -1,2 +1,4 @@
 example:
-  - 
+  trigger: RIGHT_CLICK
+  effects:
+    - straight VILLAGER_HAPPY

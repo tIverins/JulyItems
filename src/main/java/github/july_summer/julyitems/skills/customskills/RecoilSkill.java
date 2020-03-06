@@ -38,9 +38,9 @@ public class RecoilSkill extends SkillCooldown implements SkillExecute, SkillCus
     }
 
     @Override
-    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
+    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity eventEntity) {
         TargetEntity triggerEntity1 = TargetEntity.valueOf(data.getData(0).toString());
-        List<Entity> entities = TargetEntity.getTargetEntity(p, triggerEntity1, triggerEntity);
+        List<Entity> entities = TargetEntity.getTargetEntity(p, triggerEntity1, eventEntity);
         entities.forEach(entity -> {
             Vector vector = entity.getLocation().getDirection();
             entity.setVelocity(vector.multiply((-Util.objectToInteger(data.getData(0))) / 10.0));

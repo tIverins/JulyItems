@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_julyitems" default="compile.module.julyitems">
+  <dirname property="module.julyitems.basedir" file="${ant.file.module_julyitems}"/>
+  
+  <property name="module.jdk.home.julyitems" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.julyitems" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.julyitems" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.julyitems" value="-encoding UTF-8 -source 8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="julyitems.output.dir" value="E:/July_Summer/server/plugins"/>
+  <property name="julyitems.testoutput.dir" value="E:/July_Summer/server/plugins"/>
+  
+  <path id="julyitems.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="julyitems.module.production.classpath">
+    <path refid="${module.jdk.classpath.julyitems}"/>
+    <path refid="library.maven:_org.spigotmc:spigot-api:1.12.2-r0.1-snapshot.classpath"/>
+    <path refid="library.maven:_commons-lang:commons-lang:2.6.classpath"/>
+    <path refid="library.maven:_com.googlecode.json-simple:json-simple:1.1.1.classpath"/>
+    <path refid="library.maven:_junit:junit:4.10.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.1.classpath"/>
+    <path refid="library.maven:_com.google.guava:guava:21.0.classpath"/>
+    <path refid="library.maven:_com.google.code.gson:gson:2.8.0.classpath"/>
+    <path refid="library.maven:_org.yaml:snakeyaml:1.19.classpath"/>
+    <path refid="library.maven:_net.md-5:bungeecord-chat:1.12-snapshot.classpath"/>
+  </path>
+  
+  <path id="julyitems.runtime.production.module.classpath">
+    <pathelement location="${julyitems.output.dir}"/>
+  </path>
+  
+  <path id="julyitems.module.classpath">
+    <path refid="${module.jdk.classpath.julyitems}"/>
+    <pathelement location="${julyitems.output.dir}"/>
+    <path refid="library.maven:_org.spigotmc:spigot-api:1.12.2-r0.1-snapshot.classpath"/>
+    <path refid="library.maven:_commons-lang:commons-lang:2.6.classpath"/>
+    <path refid="library.maven:_com.googlecode.json-simple:json-simple:1.1.1.classpath"/>
+    <path refid="library.maven:_junit:junit:4.10.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.1.classpath"/>
+    <path refid="library.maven:_com.google.guava:guava:21.0.classpath"/>
+    <path refid="library.maven:_com.google.code.gson:gson:2.8.0.classpath"/>
+    <path refid="library.maven:_org.yaml:snakeyaml:1.19.classpath"/>
+    <path refid="library.maven:_net.md-5:bungeecord-chat:1.12-snapshot.classpath"/>
+  </path>
+  
+  <path id="julyitems.runtime.module.classpath">
+    <pathelement location="${julyitems.output.dir}"/>
+    <path refid="library.maven:_org.spigotmc:spigot-api:1.12.2-r0.1-snapshot.classpath"/>
+    <path refid="library.maven:_commons-lang:commons-lang:2.6.classpath"/>
+    <path refid="library.maven:_com.googlecode.json-simple:json-simple:1.1.1.classpath"/>
+    <path refid="library.maven:_junit:junit:4.10.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.1.classpath"/>
+    <path refid="library.maven:_com.google.guava:guava:21.0.classpath"/>
+    <path refid="library.maven:_com.google.code.gson:gson:2.8.0.classpath"/>
+    <path refid="library.maven:_org.yaml:snakeyaml:1.19.classpath"/>
+    <path refid="library.maven:_net.md-5:bungeecord-chat:1.12-snapshot.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.julyitems">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.julyitems">
+    <patternset refid="excluded.from.module.julyitems"/>
+  </patternset>
+  
+  <path id="julyitems.module.sourcepath">
+    <dirset dir="${module.julyitems.basedir}">
+      <include name="src/main/java"/>
+      <include name="src/main/resources"/>
+    </dirset>
+  </path>
+  
+  <path id="julyitems.module.test.sourcepath">
+    <dirset dir="${module.julyitems.basedir}">
+      <include name="src/test/java"/>
+      <include name="src/test/resources"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.julyitems" depends="compile.module.julyitems.production,compile.module.julyitems.tests" description="Compile module JulyItems"/>
+  
+  <target name="compile.module.julyitems.production" depends="register.custom.compilers" description="Compile module JulyItems; production classes">
+    <mkdir dir="${julyitems.output.dir}"/>
+    <javac2 destdir="${julyitems.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.julyitems}/javac">
+      <compilerarg line="${compiler.args.julyitems}"/>
+      <bootclasspath refid="julyitems.module.bootclasspath"/>
+      <classpath refid="julyitems.module.production.classpath"/>
+
+      <src refid="julyitems.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.julyitems"/>
+    </javac2>
+    
+    <copy todir="${julyitems.output.dir}">
+      <fileset dir="${module.julyitems.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.julyitems.basedir}/src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.julyitems.tests" depends="register.custom.compilers,compile.module.julyitems.production" description="compile module JulyItems; test classes" unless="skip.tests">
+    <mkdir dir="${julyitems.testoutput.dir}"/>
+    <javac2 destdir="${julyitems.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.julyitems}/javac">
+      <compilerarg line="${compiler.args.julyitems}"/>
+      <bootclasspath refid="julyitems.module.bootclasspath"/>
+      <classpath refid="julyitems.module.classpath"/>
+      <src refid="julyitems.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.julyitems"/>
+    </javac2>
+    
+    <copy todir="${julyitems.testoutput.dir}">
+      <fileset dir="${module.julyitems.basedir}/src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.julyitems.basedir}/src/test/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.julyitems" description="cleanup module">
+    <delete dir="${julyitems.output.dir}"/>
+    <delete dir="${julyitems.testoutput.dir}"/>
+  </target>
+</project>

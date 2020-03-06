@@ -36,7 +36,7 @@ public class ConsumeSkill extends SkillCooldown implements SkillExecute, SkillCu
     }
 
     @Override
-    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
+    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity eventEntity) {
         ItemStack triggerItem = p.getInventory().getItem(triggerItemSlot);
         int amount = triggerItem.getAmount() - 1 <= 0 ? 0 : triggerItem.getAmount() - 1;
         triggerItem.setAmount(amount);

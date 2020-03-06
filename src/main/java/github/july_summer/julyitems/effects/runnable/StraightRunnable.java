@@ -1,29 +1,19 @@
 package github.july_summer.julyitems.effects.runnable;
 
+import github.july_summer.julyitems.effects.EffectExecute;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-public class StraightRunnable extends BukkitRunnable {
+public class StraightRunnable implements EffectExecute {
 
     private final double distance = 0.1;
 
-    private Particle particle = null;
-    private Location location1 = null;
-    private Location location2 = null;
-    private World world = null;
-
-    public StraightRunnable value(Particle particle, Location location1, Location location2){
-        this.location1 = location1;
-        this.location2 = location2;
-        this.world = location1.getWorld();
-        return this;
-    }
-
     @Override
-    public void run() {
+    public void exec(Particle particle, Location location1, Location location2) {
+        World world = location1.getWorld();
         if(particle == null || location1 == null || location2 == null || !location1.getWorld().equals(location2.getWorld()))
             return;
 

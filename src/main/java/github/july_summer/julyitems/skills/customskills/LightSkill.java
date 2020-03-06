@@ -37,21 +37,21 @@ public class LightSkill implements SkillExecute, SkillCustomLore {
     }
 
     @Override
-    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
+    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity eventEntity) {
         boolean isChance = Util.isChance(Util.objectToInteger(data.getData(1)));
         if(isChance) {
             TargetEntity triggerEntity1 = TargetEntity.valueOf(data.getData(0).toString());
 
             int damage = Util.objectToInteger(data.getData(2));
-            List<Entity> entities = TargetEntity.getTargetEntity(p, triggerEntity1, triggerEntity);
+            List<Entity> entities = TargetEntity.getTargetEntity(p, triggerEntity1, eventEntity);
             entities.forEach(entity -> {
                 if (entity instanceof LivingEntity) {
                     LivingEntity livingEntity = (LivingEntity) entity;
                     LightningStrike light = livingEntity.getWorld().strikeLightning(livingEntity.getLocation());
                     entityIdMap.put(light.getEntityId(), damage);
 
-                    if (triggerEntity instanceof Player) {
-                        ((Player) triggerEntity).sendTitle((String) ConfigManager.getValue("skills.light.entityTitle"), "");
+                    if (eventEntity instanceof Player) {
+                        ((Player) eventEntity).sendTitle((String) ConfigManager.getValue("skills.light.entityTitle"), "");
                     }
                 }
             });

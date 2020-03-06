@@ -34,13 +34,13 @@ public class BlindingSkill implements SkillExecute, SkillCustomLore{
     }
 
     @Override
-    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
+    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity eventEntity) {
         boolean isChance = Util.isChance(Util.objectToInteger(data.getData(1)));
         if (isChance) {
             Integer[] potionData = new Integer[]{Util.objectToInteger(data.getData(2))
                     , Util.objectToInteger(data.getData(3))};
             TargetEntity triggerEntity1 = TargetEntity.valueOf(data.getData(0).toString());
-            List<Entity> entities =  TargetEntity.getTargetEntity(p, triggerEntity1, triggerEntity);
+            List<Entity> entities =  TargetEntity.getTargetEntity(p, triggerEntity1, eventEntity);
             entities.forEach(entity -> {
                 if (entity instanceof LivingEntity) {
                     LivingEntity livingEntity = (LivingEntity) entity;

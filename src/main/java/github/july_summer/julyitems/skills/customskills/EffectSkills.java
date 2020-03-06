@@ -1,11 +1,15 @@
 package github.july_summer.julyitems.skills.customskills;
 
+import github.july_summer.julyitems.effects.EffectGroup;
+import github.july_summer.julyitems.effects.EffectManager;
 import github.july_summer.julyitems.skills.*;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+
+import java.util.List;
 
 public class EffectSkills implements SkillExecute, SkillCustomLore {
 
@@ -25,9 +29,13 @@ public class EffectSkills implements SkillExecute, SkillCustomLore {
     }
 
     @Override
-    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity triggerEntity) {
+    public void exec(Player p, int triggerItemSlot, SkillTrigger trigger, SkillData data, Event event, Entity eventEntity) {
         Location location = p.getLocation();
-        World world = location.getWorld();
+        TargetEntity targetEntity = TargetEntity.valueOf(data.getData(0).toString());
+        List<Entity> entities = TargetEntity.getTargetEntity(p, targetEntity, eventEntity);
+        entities.forEach(entity -> {
+            EffectManager.getGroup(data.getData(1).toString()).exec(p.getLocation(), entity.getLocation());
+        });
     }
     
 }
