@@ -16,11 +16,13 @@ public class ConfigManager {
 
     public static JulyItems instance;
     public static File items;
+    public static File effects;
     public static HashMap<Object, Object> valueMap = Maps.newHashMap();
 
     public static void initFile(){
         instance = JulyItems.getInstance();
         items = new File(instance.getDataFolder(), "items.yml");
+        effects = new File(instance.getDataFolder(), "effects.yml");
         ConfigManager.load();
     }
 

@@ -2,6 +2,7 @@ package github.july_summer.julyitems;
 
 import github.july_summer.julyitems.command.Commands;
 import github.july_summer.julyitems.drop.DropManager;
+import github.july_summer.julyitems.effects.EffectManager;
 import github.july_summer.julyitems.item.ItemManager;
 import github.july_summer.julyitems.listener.*;
 import github.july_summer.julyitems.listener.skill.LightListener;
@@ -20,21 +21,13 @@ public class JulyItems extends JavaPlugin {
 
     public static JulyItems instance;
 
-    static {
-        instance = new JulyItems();
-    }
-
     public static JulyItems getInstance(){
         return instance;
     }
 
     @Override
-    public void onLoad(){
-        init();
-    }
-
-    @Override
     public void onEnable() {
+        init();
         registerListeners();
         getCommand("julyitem").setExecutor(new Commands());
     }
@@ -45,18 +38,20 @@ public class JulyItems extends JavaPlugin {
         HandlerList.unregisterAll();
     }
 
-    public void init(){
+    void init(){
+        instance = this;
         ConfigManager.initFile();
         PotionManager.initDefaultDisplayName(this);
         SkillManager.loadDefaultSkills();
         DropManager.initEntityDrop();
         RecipeManager.initCrafting();
         ItemManager.init(YamlConfiguration.loadConfiguration(ConfigManager.items));
+        EffectManager.init(YamlConfiguration.loadConfiguration(ConfigManager.effects));
         Bukkit.getScheduler().runTaskTimer(this, () -> SkillCooldown.runTask(), 20 , 20);
         Bukkit.getScheduler().runTaskTimer(this, () -> SkillTriggerListener.lastHeldTask(), 20 , 20);
     }
 
-    public void registerListeners(){
+    void registerListeners(){
         getServer().getPluginManager().registerEvents(new ItemUpDateLlistener(), this);
         getServer().getPluginManager().registerEvents(new DamageListener(), this);
         getServer().getPluginManager().registerEvents(new SkillTriggerListener(), this);

@@ -1,4 +1,2 @@
 example:
-  trigger: RIGHT_CLICK
-  effects:
-    - straight VILLAGER_HAPPY
+  - straight VILLAGER_HAPPY {x},{y}+1,{z} {x},{y}+1,{z}
